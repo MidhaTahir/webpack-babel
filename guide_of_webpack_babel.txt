@@ -1,0 +1,127 @@
+Webpack allows us to convert files into other files that our browser can understand. 
+
+Webpack , webpack cli are developer dependencies so write –save-dev 
+
+npm i webpack webpack-cli –save-dev or yarn add webpack webpack-cli 
+
+Babel: Babel will turn your ES6+ code into ES5 friendly code, so you can start using it right now without waiting for browser support; Webpack: A bundler for javascript and friends. Packs many modules into a few bundled assets. Code Splitting allows to load parts for the application on demand. Through "loaders" modules can be CommonJs, AMD, ES6 modules, CSS, Images, JSON, Coffeescript, LESS, ... and your custom stuff. 
+
+Babel can be classified as a tool in the "JavaScript Compilers" category, while Webpack is grouped under "JS Build Tools / JS Task Runners". 
+
+"Modern Javascript works with all browsers", "Open source" and "Integration with lots of tools" are the key factors why developers consider Babel; whereas "Most powerful bundler", "Built-in dev server with livereload" and "Can handle all types of assets" are the primary reasons why Webpack is favored. 
+
+
+
+When we run webpack, webpack will know to look for webpack.config.js file 
+
+Add     "build":"webpack --mode production" In package.json 
+
+In webpack config file we have to use old es5 syntax  
+
+Webpack doesnot need to convert css code into js code 
+
+test: /\.(js|jsx)$/   -> any file with extension .js or .jsx 
+
+exclude: /node_modules/ --> exclude node modules because we don’t want to run or build node modules 
+
+use: {  loader: 'babel-loader'     }   --> what loader needs to be run as helper to convert this code into the actual version 
+
+Yarn add @babel/core   @babel/preset-env   @babel/preset-react   babel-loader 
+
+.babelrc file tells babel what it needs to transpile to 
+
+.Js or .jsx always work while naming a file because of this  
+
+Bring in two new loaders for css 
+
+1) style loader ->   
+
+2) css loader   -> 
+
+We can also use sass loader 
+
+Yarn add style-loader css-loader 
+
+Order matters loaders render from right to left in test  
+
+use: [ 
+
+              'style-loader', 
+
+              'css-loader' 
+
+ ]  --> We want to load css loader first that’s why write it in right in use array 
+
+ 
+
+bring html file that we can finally read for that bring in html-loader and html-webpack-plugin(place output somewhere) 
+
+For plugin first import them in config file 
+
+const HtmlWebpackPlugin = require("html-webpack-plugin"); 
+
+Babel always go to index.js file and use index.html from there that’s why in template write ./index.html 
+
+FINAL CONFIG FILE: 
+
+const HtmlWebPackPlugin = require('html-webpack-plugin'); 
+
+module.exports = { 
+
+  module: { 
+
+    rules: [ 
+
+      { 
+
+        test: /\.(js|jsx)$/, 
+
+        exclude: /node_modules/, 
+
+        use: { 
+
+          loader: 'babel-loader' 
+
+        } 
+
+      }, 
+
+      { 
+
+        test: /\.html$/, 
+
+        use: [ 
+
+          { 
+
+            loader: 'html-loader' 
+
+          } 
+
+        ] 
+
+      }, 
+
+      { 
+
+        test: /\.css$/, 
+
+        use: ['style-loader', 'css-loader'] 
+
+      } 
+
+    ] 
+
+  }, 
+
+  plugins: [ 
+
+    new HtmlWebPackPlugin({ 
+
+      template: './index.html' 
+
+    }) 
+
+  ] 
+
+}; 
